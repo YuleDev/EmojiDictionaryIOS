@@ -2,7 +2,7 @@ import UIKit
 
 class EmojiTableViewController: UITableViewController {
     
-    var emojis: [Emoji] = [
+    var sampleEmojis: [Emoji] = [
        Emoji(symbol: "😀", name: "Grinning Face",
        description: "A typical smiley face.", usage: "happiness"),
        Emoji(symbol: "😕", name: "Confused Face",
@@ -31,12 +31,16 @@ class EmojiTableViewController: UITableViewController {
        description: "A black-and-white checkered flag.", usage:
        "completion")
     ]
+    
+    var emojis: [Emoji] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
+        
+        emojis = Emoji.loadFromFile() ?? sampleEmojis
     }
     
     
@@ -62,10 +66,8 @@ class EmojiTableViewController: UITableViewController {
             emojis.append(emoji)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
-        
+        Emoji.saveToFile(emojis: emojis)
     }
-    
-    // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
